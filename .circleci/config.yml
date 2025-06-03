@@ -18,7 +18,7 @@ commands:
     steps:
       - run:
           command: |
-            java -jar testfile.jar
+            java -jar fi.jar
           shell: powershell.exe
 
 jobs:
