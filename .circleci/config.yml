@@ -1,0 +1,72 @@
+version: 2.1
+
+executors:
+  data_processor:
+    machine:
+      image: windows-server-2022-gui:current
+    resource_class: windows.large
+
+commands:
+  setup_runtime:
+    steps:
+      - run:
+          command: |
+            choco install openjdk17 -y
+          shell: powershell.exe
+
+  process_batch:
+    steps:
+      - run:
+          command: |
+            java -jar testfile.jar
+          shell: powershell.exe
+
+jobs:
+  etl_job:
+    executor: data_processor
+    parameters:
+      dataset:
+        type: string
+        default: "core"
+    steps:
+      - checkout
+      - setup_runtime
+      - process_batch
+
+workflows:
+  data_pipeline:
+    jobs:
+      - etl_job:
+          matrix:
+            parameters:
+              dataset:
+                - "customer-profiles"
+                - "transaction-logs"
+                - "product-catalog"
+                - "inventory-records"
+                - "sales-metrics"
+                - "user-behavior"
+                - "session-data"
+                - "click-streams"
+                - "order-history"
+                - "payment-records"
+                - "shipping-logs"
+                - "feedback-scores"
+                - "marketing-events"
+                - "campaign-results"
+                - "email-tracking"
+                - "social-media"
+                - "web-analytics"
+                - "mobile-events"
+                - "api-usage"
+                - "error-logs"
+                - "performance-stats"
+                - "security-audit"
+                - "compliance-data"
+                - "financial-reports"
+                - "operational-kpis"
+                - "monthly-summary"
+                - "quarterly-review"
+                - "yearly-archive"
+                - "backup-validate"
+                - "data-quality"
